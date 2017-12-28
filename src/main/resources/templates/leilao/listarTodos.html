@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Vem Leiloar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function filtro() {
+            $('#filtroLeilao').submit();
+        }
+    </script>
+
+    <style type="text/css">
+        .listarTodos{
+            background-color: darkgrey;
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="container">
+    <div class="page-header">
+        <!--<h1>Todos os Leilões</h1>-->
+    </div>
+
+    <form class="form-horizontal" th:object="${leilao}" th:action="@{/leilao/pesquisar}" id="filtroLeilao" method="GET" style="margin: 10px">
+        <div style="display: flex;">
+        	<div style="margin-bottom: -12px; margin-top: -5px;">
+                <label>Categoria:</label>
+                <select th:field="*{categoria}" onchange="filtro()" class="form-control input-sm" style="width: 150px;">
+                    <option value="">Todos</option>
+                    <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}" th:selected="${categorias.contains(cat.id)}"/>
+                </select>
+            </div>
+            <div style="margin-bottom: -12px; margin-top: -5px; margin-left: 20px;">
+            	<label>Produto:</label>
+                <input type="text" class="form-control input-sm" style="width: 165%;" th:field="*{nomeProduto}" />
+            </div>
+            <div style="margin-bottom: -12px; margin-top: 30px; margin-left: 160px;">
+                <button type="submit" class="btn btn-sm btn-primary">Pesquisar</button>
+            </div>
+		</div>
+    </form>
+    
+    <div id="principal" style="align: center; text-align: center; margin-top: 40px;">
+		<div class="alert alert-info" th:if="${msgListaVazia ne null}">
+			<span th:text="${msgListaVazia}"></span>
+		</div>
+	</div>
+    
+
+    <div class="card" th:each="leilao: ${leiloes}" style="margin-bottom: 10px; margin-top: 25px;" onmouseover="this.style.background='#EEE9E9';" onmouseout="this.style.background='white';">
+        <div class="card-block" style="display: flex">
+            <div style="display: grid; width: 160px;">
+                <div style="display: grid; width: 160px;" th:if="${leilao.imagem != null}">
+                    <img th:src="${'data:image/jpg;base64,' + leilao.imagem.foto}" style="width: 100px; height: 100px;"/>
+                </div>
+                <div style="display: grid; width: 160px;" th:if="${leilao.imagem == null}">
+                    <img th:src="${'data:image/jpg;base64,' + semFoto}" style="width: 100px; height: 100px;"/>
+                </div>
+            </div>
+            <div style="display: grid; width: 200px;">
+            	<b>Produto</b>
+                <label th:text="${leilao.nomeProduto}"></label>
+            </div>
+            <div style="display: grid; width: 200px;">
+                <b>&Uacute;ltimo Lance</b>
+                <label th:text="${leilao.ultimoLance}"></label>
+            </div>
+            <div style="display: grid; width: 250px;">
+                <b>Data do Fechamento</b>
+                <label th:text="${leilao.dataFechamentoStr}"></label>
+            </div>
+            <div style="display: grid; width: 200px;">
+				<b>Estado</b>
+                <label th:text="${leilao.usuario.estado.uf}"></label>
+			</div>
+            <div style="width: 200px; margin-top: 15px;">
+                <a class="btn btn-sm btn-success" th:href="@{/leilao/participar/{id}(id=${leilao.id})}" th:if="${leilao.ultimoLance == null and !leilao.meuLeilao}" >PARTICIPAR</a>
+                <a class="btn btn-sm btn-primary" th:href="@{/leilao/participar/{id}(id=${leilao.id})}" th:if="${leilao.ultimoLance != null and !leilao.meuLeilao}" >PARTICIPANDO</a>
+                <a class="btn btn-sm btn-warning" th:href="@{/leilao/participar/{id}(id=${leilao.id})}" th:if="${leilao.meuLeilao}" >MEU LEIL&Atilde;O</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

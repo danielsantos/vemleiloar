@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vem Leiloar</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        .listarMeus{
+            background-color: darkgrey;
+        }
+
+        .campo {
+            display: grid;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="container">
+
+    <div class="page-header">
+        <!--<h1>Meus Leilões</h1>-->
+    </div>
+
+    <div style="margin: 20px">
+
+    </div>
+
+    <div th:each="item: ${lista}">
+        <div class="card" style="margin-top: 10px;">
+            <div class="card-block" style="background-color: #E0EEEE;" th:if="${item.tpUsuario == 'V'}" >
+                (<label th:text="${item.dataStr}"></label>) <label th:text="${item.mensagem}"></label>
+            </div>
+
+            <div class="card-block" style="background-color: #AFEEEE; text-align: right;" th:if="${item.tpUsuario == 'C'}" >
+                <label th:text="${item.mensagem}"></label> (<label th:text="${item.dataStr}"></label>)
+            </div>
+        </div>
+    </div>
+
+    <div id="principal" style="align: center;">
+
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3" style="text-align: center; margin-left:270px;">
+                <form th:action="@{/chat/save}" method="post" th:object="${chatMensagem}">
+                
+                	<input type="hidden" th:field="*{tpUsuario}"></input>
+                	<input type="hidden" th:field="*{chat}"></input>
+                
+                    <fieldset>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg" th:field="*{mensagem}" autofocus="true" placeholder="Digite aqui a sua mensagem" maxlength="50" required="true"/>
+                        </div>
+
+                        <div class="row">
+                            <button type="submit" class="btn btn-sm btn-success" style="margin-left: 16px;">Adicionar</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

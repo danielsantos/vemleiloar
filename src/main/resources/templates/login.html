@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Vem Leiloar</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	</head>
+    <body>
+
+		<!--
+    	<div class="container">
+	        <div th:if="${param.error}">
+	            Invalid username and password.
+	        </div>
+	        <div th:if="${param.logout}">
+	            You have been logged out.
+	        </div>
+	        <form th:action="@{/login}" method="post" class="form-signin">
+	            <label for="inputEmail" class="sr-only">Email</label>
+	            <input type="text" name="username" class="form-control" placeholder="Email address" value="testando"/>
+	            <label for="inputPassword" class="sr-only">Password</label>
+	            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" value="qwerty"/>
+	            
+	            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	        </form>
+		</div>
+		-->
+
+		<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+			<a class="navbar-brand" th:href="@{/}">Vem Leiloar</a>
+		</nav>
+
+		<div class="container">
+
+			<div id="principal_" style="align: center; text-align: center; margin-top: 120px;">
+				<div class="alert alert-success" th:if="${msgSucesso ne null}">
+					<span th:text="${msgSucesso}"></span>
+				</div>
+			</div>
+
+			<div id="principal" style="align: center;">
+				
+				<div class="row" style="margin-top:20px">
+					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3" style="text-align: center; margin-left:270px; margin-top: 20px;">
+						<form th:action="@{/login}" method="post">
+							<fieldset>
+								<h1>Login</h1>
+
+							<div th:if="${param.error}">
+								<div class="alert alert-danger">Usu&aacute;rio e/ou Senha
+									inv&aacute;lidos.</div>
+							</div>
+							<div th:if="${param.logout}">
+									<div class="alert alert-info">
+										You have been logged out.
+									</div>
+								</div>
+
+								<div class="form-group">
+									<input type="text" name="username" id="username" class="form-control input-lg"
+										   placeholder="E-mail" required="true" autofocus="true"/>
+								</div>
+								<div class="form-group">
+									<input type="password" name="password" id="password" class="form-control input-lg"
+										   placeholder="Senha" required="true"/>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<input type="submit" class="btn btn-lg btn-primary btn-block" value="Entrar"/>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<a class="btn btn-lg btn-success btn-block" th:href="@{/cadastro}">Cadastre-se</a>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-12" style="margin-top: 25px;">
+										<a th:href="@{/esqueciMinhaSenha}">Esqueci minha senha</a>
+									</div>
+								</div>
+																
+							</fieldset>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+
+    </body>
+</html>

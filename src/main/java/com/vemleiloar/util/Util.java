@@ -1,0 +1,59 @@
+package com.vemleiloar.util;
+
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.codec.binary.Base64;
+
+public class Util {
+	
+	public static final String semFoto = "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";
+
+    public static Date retornaDataFechamento() {
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 7);
+
+        Integer hora = c.get(Calendar.HOUR) + 1;
+
+        c.set(Calendar.HOUR, hora);
+        c.set(Calendar.MINUTE, 00);
+
+        return c.getTime();
+
+    }
+    
+    private static Random getTheBestSecureRandomAvailable() {
+        try {
+            return SecureRandom.getInstance("IBMSecureRandom", "IBMJCECCA");
+        } catch (GeneralSecurityException e) {
+            return new SecureRandom();
+        }
+    }
+    
+    private static String truncateString(String str, int maximumLength) {
+        return (str.length() <= maximumLength) ? str : str.substring(0, maximumLength);
+    }
+    
+    public static String geraToken() {
+    	Random random = getTheBestSecureRandomAvailable();
+    	ByteBuffer buffer = ByteBuffer.allocate((22 * 6 + Byte.SIZE - 1) / Byte.SIZE);
+        random.nextBytes(buffer.array());
+        final String token = Base64.encodeBase64URLSafeString(buffer.array());
+        return truncateString(token, 22);
+    }
+    
+    public static boolean emailValido(String email) {
+	    Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+		Matcher m = p.matcher(email);
+		return m.matches();
+    }
+    
+}

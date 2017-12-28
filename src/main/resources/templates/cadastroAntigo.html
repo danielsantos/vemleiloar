@@ -1,0 +1,54 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Cadastro</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" th:object="${usuario}" th:action="@{/autocadastro}" method="POST" style="margin: 10px">
+            <div class="form-group">
+                <fieldset>
+                    <div class="form-group row">
+                        <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                            <div th:each="detailedError : ${#fields.detailedErrors()}">
+                                <span th:text="${detailedError.message}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4" th:classappend="${#fields.hasErrors('nome')}? 'has-error'">
+                            <label>Nome</label>
+                            <input type="text" class="form-control input-sm" th:field="*{nome}" autofocus="autofocus" placeholder="Informe o nome" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4" th:classappend="${#fields.hasErrors('sobrenome')}? 'has-error'">
+                            <label>Sobrenome:</label>
+                            <input type="text" class="form-control input-sm" th:field="*{sobrenome}" autofocus="autofocus" placeholder="Informe o sobrenome" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4" th:classappend="${#fields.hasErrors('dataNascimento')}? 'has-error'">
+                            <label>Data de Nascimento:</label>
+                            <input type="text" class="form-control input-sm" th:field="*{dataNascimento}" autofocus="autofocus" placeholder="Informe a data de nascimento" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+                            <label>E-mail:</label>
+                            <input type="text" class="form-control input-sm" th:field="*{email}" autofocus="autofocus" placeholder="Informe o E-mail" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4" th:classappend="${#fields.hasErrors('confirmeEmail')}? 'has-error'">
+                            <label>Confirme o E-mail:</label>
+                            <input type="text" class="form-control input-sm" th:field="*{confirmeEmail}" autofocus="autofocus" placeholder="Confirme o E-mail" maxlength="50"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-group row">
+                <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                <a th:href="@{/}" class="btn btn-sm btn-default">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Vem Leiloar - Lances</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+
+            $("#meuLance").maskMoney({
+                prefix: "R$:",
+                decimal: ",",
+                thousands: "."
+            });
+
+        });
+        
+        function confirmaVenda() {
+        	return confirm('Confirma a venda do produto? Não será mais possível contato com os compradores');
+        }
+
+    </script>
+    
+    <style type="text/css">
+        .campo {
+            display: grid;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="panel panel-default">
+    
+    <div class="panel-body" style="margin-top: 1%;">
+        <form class="form-horizontal" th:object="${leilao}" th:action="@{/leilao/participacao/save}" method="POST" style="margin: 10px">
+            <div class="form-group">
+                <fieldset>
+                    
+                    <div class="card" style="margin-bottom: 10px;">
+				        <div class="card-block" style="display: flex">
+				            <div style="display: grid; width: 160px;" th:if="${leilao.imagem != null}">
+				                <img th:src="${'data:image/jpg;base64,'+leilao.imagem.foto}" style="width: 100px; height: 100px;"/>
+				            </div>
+				            <div style="display: grid; width: 160px;" th:if="${leilao.imagem == null}">
+				                <img th:src="${'data:image/jpg;base64,' + semFoto}" style="width: 100px; height: 100px;"/>
+				            </div>
+				            <div class="campo">
+				                <b>Produto</b>
+				                <label th:text="${leilao.nomeProduto}"></label>
+				            </div>
+				            <div class="campo">
+				                <b>Lance Inicial</b>
+				                <label th:text="${leilao.lanceInicial}"></label>
+				            </div>
+				            <div class="campo">
+				                <b>&Uacute;ltimo Lance</b>
+				                <label th:text="${leilao.ultimoLance}"></label>
+				            </div>
+				            <div class="campo">
+				                <b>Qtd Lances</b>
+				                <label th:text="${leilao.qtdLances}"></label>
+				            </div>
+				            <div class="campo">
+				                <b>Data do Fechamento</b>
+				                <label th:text="${leilao.dataFechamentoStr}"></label>
+				            </div>
+				            <div class="campo">
+				                <b>Status</b>
+				                <label th:text="${leilao.statusStr}"></label>
+				            </div>
+				        </div>
+				    </div>
+
+                </fieldset>
+            </div>
+            
+            <div class="panel-heading" style="text-align: center;">
+            	<a class="btn btn-sm btn-success" th:href="@{'/leilao/finalizar/' + ${leilao.uuid} }" onclick="return confirmaVenda()" >
+					Clique aqui CASO TENHA VENDIDO O PRODUTO
+	            </a>
+        		<h3 style="margin-top: 10px;">Lances do Leil&atilde;o</h3>
+    		</div>
+
+			<div align="center">
+	            <table class="table table-striped table-bordered" style="width: 70%;">
+	                <thead>
+	                <tr>
+	                    <th>Lance</th>
+	                    <th>Usu&aacute;rio</th>
+	                    <th>Data</th>
+	                    <th th:if="${leilao.statusStr == 'FECHADO'}"></th>
+	                </tr>
+	                </thead>
+	
+	                <tbody>
+	                <tr th:each="part: ${participacoes}">
+	                    <td th:text="${part.lance}"></td>
+	                    <td th:text="${part.usuario.nome}"></td>
+	                    <td th:text="${part.dataCadastroStr}"></td>
+	                    <td th:if="${leilao.statusStr == 'FECHADO'}">
+	                    	<div align="center" th:if="${part.chatCriado or part.chatAguardandoCriacao}">
+	                    		<a class="btn btn-sm btn-primary" 
+	                    			th:href="@{'/chat/view/v/' + ${part.usuario.uuid} + '/' + ${part.leilao.uuid}}" >
+	                    		  Chat
+	                    		</a>
+	                    		
+	                    		<a class="btn btn-sm btn-danger" th:if="${part.chatCriado}" 
+	                    			th:href="@{'/chat/fechar/' + ${part.usuario.uuid} + '/' + ${part.leilao.uuid}}" >
+	                    		  Sem Sucesso. Seguir para próximo comprador.
+	                    		</a>
+	                    	</div>
+	                    </td>
+	                </tr>
+	                </tbody>
+	            </table>
+            </div>
+
+            <div class="form-group row">
+                <a th:href="@{/leilao/listar/todos}" class="btn btn-sm btn-default">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

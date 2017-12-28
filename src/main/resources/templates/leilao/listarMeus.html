@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vem Leiloar</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        .listarMeus{
+            background-color: darkgrey;
+        }
+
+        .campo {
+            display: grid;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="container">
+
+    <div class="page-header">
+        <!--<h1>Meus Leilões</h1>-->
+    </div>
+    
+	<div id="principal" style="align: center; text-align: center; margin-top: 18px; margin-left: 25%; width: 55%;">
+		<div class="alert alert-success" th:if="${msgSucesso ne null}">
+			<span th:text="${msgSucesso}"></span>
+		</div>
+	</div>
+
+    <div style="margin: 10px">
+        <a class="btn btn-sm btn-success" th:href="@{/leilao/add/}" >Adicionar</a>
+    </div>
+
+    <div class="card" th:each="leilao: ${leiloes}" style="margin-bottom: 10px;" onmouseover="this.style.background='#EEE9E9';" onmouseout="this.style.background='white';">
+        <div class="card-block" style="display: flex">
+            <div style="display: grid; width: 160px;" th:if="${leilao.imagem.foto != ''}">
+                <img th:src="${'data:image/jpg;base64,'+leilao.imagem.foto}" style="width: 100px; height: 100px;"/>
+            </div>
+            <div style="display: grid; width: 160px;" th:if="${leilao.imagem.foto == ''}">
+                <img th:src="${'data:image/jpg;base64,' + semFoto}" style="width: 100px; height: 100px;"/>
+            </div>
+            <div class="campo">
+                <b>Produto</b>
+                <label th:text="${leilao.nomeProduto}"></label>
+            </div>
+            <div class="campo">
+                <b>Lance Inicial</b>
+                <label th:text="${leilao.lanceInicial}"></label>
+            </div>
+            <div class="campo">
+                <b>&Uacute;ltimo Lance</b>
+                <label th:text="${leilao.ultimoLance}"></label>
+            </div>
+            <div class="campo">
+                <b>Quant. Lances</b>
+                <label th:text="${leilao.qtdLances}"></label>
+            </div>
+            <div class="campo">
+                <b>Data do Fechamento</b>
+                <label th:text="${leilao.dataFechamentoStr}"></label>
+            </div>
+            <div class="campo">
+                <b>Status</b>
+                <label th:text="${leilao.statusStr}"></label>
+            </div>
+            <div style="width: 200px; margin-top: 25px;">
+                <a class="btn btn-sm btn-primary" th:href="@{/leilao/edit/{uuid}(uuid=${leilao.uuid})}" >Editar</a>
+                <a class="delete btn btn-sm btn-danger" th:href="@{/delete/{id}(id=${leilao.id})}">Cancelar</a>
+                
+                <a class="delete btn btn-sm btn-warning" th:href="@{/leilao/lances/{uuid}(uuid=${leilao.uuid})}">Lances</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

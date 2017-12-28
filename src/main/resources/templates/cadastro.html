@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Vem Leiloar - Cadastre-se</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#dataNascimento").datepicker({
+				changeMonth: true,
+				yearRange: "-100:+0",
+		        changeYear: true,
+		        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+		        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+		        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+		        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+			});
+			
+			$('#email').bind('copy paste', function (e) {
+				e.preventDefault();
+			});
+			
+			$('#confirmaEmail').bind('copy paste', function (e) {
+				e.preventDefault();
+			});
+    	});
+	</script>
+	
+</head>
+<body>
+
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<a class="navbar-brand" href="@{/}">Vem Leiloar</a>
+</nav>
+
+		<div class="container">
+
+			<div class="form-group row">
+				<div class="alert alert-success" th:if="${msgSucesso ne null}">
+					<span th:text="${msgSucesso}"></span>
+				</div>
+			</div>
+			
+			<div id="principal" style="align: center;">
+				
+				<div class="row" style="margin-top:20px">
+					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3" style="text-align: center; margin-left:270px; margin-top: 80px;">
+						<form th:action="@{/usuario/salvar}" method="post" th:object="${usuario}">
+						
+							<div id="principal" style="align: center; text-align: center;">
+								<div class="alert alert-danger" th:if="${msgError ne null}">
+									<span th:text="${msgError}"></span>
+								</div>
+							</div> 		
+						
+							<div class="form-group">
+								<fieldset>
+									<h1>Cadastre-se</h1>
+
+									<div th:if="${param.error}">
+										<div class="alert alert-danger">
+											Usu&aacute;rio e/ou Senha inv&aacute;lidos.
+										</div>
+									</div>
+									<div th:if="${param.logout}">
+										<div class="alert alert-info">
+											You have been logged out.
+										</div>
+									</div>
+
+									<div class="form-group">
+										<input type="text" class="form-control input-lg" th:field="*{nome}" placeholder="Informe o Nome" maxlength="20" />
+									</div>
+
+									<div class="form-group">
+										<input type="text" class="form-control input-lg" th:field="*{sobrenome}" placeholder="Informe o Sobrenome" maxlength="100" />
+									</div>
+									<div class="form-group">
+										<input type="text" id="dataNascimento" readonly="readonly" class="form-control input-lg dataNascimento" th:field="*{dataNascimento}"  placeholder="Informe a Data de Nascimento" />
+									</div>
+
+									<div class="form-group">
+										<select th:field="*{estado.uf}" class="form-control input-sm" style="width: 540px;">
+											<option value="">Selecione</option>
+											<option th:each="est : ${estados}" th:value="${est.uf}" th:text="${est.nome}"/>
+										</select>
+									</div>
+
+									<div class="form-group">
+										<input type="text" id="email" class="form-control input-lg" th:field="*{email}" placeholder="Informe o E-mail" maxlength="80" />
+									</div>
+									<div class="form-group">
+										<input type="text" id="confirmaEmail" class="form-control input-lg" th:field="*{confirmeEmail}" placeholder="Confirme o E-mail" maxlength="80" />
+									</div>
+
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12">
+											<input type="submit" class="btn btn-lg btn-primary btn-block" value="Enviar"/>
+										</div>
+									</div>
+
+								</fieldset>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+
+	</div>
+
+</body>
+</html>

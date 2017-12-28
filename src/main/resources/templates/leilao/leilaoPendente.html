@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Vem Leiloar</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<style>
+		.imagem:hover {
+			border:1px solid #0000FF;
+		}
+	 
+	</style>
+
+</head>
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+	<div class="container">
+
+		<div id="principal" style="align: center;">
+
+			<div class="row">
+
+				<div style="width: 100%; margin-left: 210px; margin-top: 40px;">
+
+					<form th:object="${leilao}" th:action="@{/leilao/participacao/save}" method="POST" >
+						<div>
+							<fieldset>
+								
+								<div id="principal" style="align: center; text-align: center; width: 67%;">
+									<div class="alert alert-danger" th:if="${msgError ne null}">
+										<span th:text="${msgError}"></span>
+									</div>
+								</div> 		
+								 					
+								<div class="form-group row">
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('nomeProduto')}? 'has-error'">
+										<label>Nome do Produto</label>
+										<input type="text" class="form-control input-sm" th:field="*{nomeProduto}" th:disabled="true" />
+									</div>
+
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('lanceInicial')}? 'has-error'">
+										<label>Lance Inicial</label>
+										<input type="text" class="form-control input-sm" th:field="*{lanceInicial}" th:disabled="true" style="width: 140px;" />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-md-6">
+										<label>Descri&ccedil;&atilde;o</label>
+										<textarea th:field="*{descricao}" class="form-control input-sm" rows="10" th:disabled="true"></textarea>
+									</div>
+
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('lanceInicial')}? 'has-error'">
+										<a data-toggle="modal" data-target="#myModal">
+											<div style="margin-top: 10px; width: 160px;" class="imagem">
+												<label>Imagem</label>
+												<img th:src="*{'data:image/jpg;base64,'+imagem.foto}" style="width: 100px; height: 100px;"/>
+											</div>
+										</a>
+									</div>
+								</div>
+
+								<input type="hidden" th:field="*{id}" />
+
+							</fieldset>
+						</div>
+						
+						<div class="form-group row" style="margin-left: 1px;">
+							<a th:href="@{/leilao/invalidar/{id}(id=${leilao.id})}" class="btn btn-sm btn-danger">Invalidar</a>
+							&nbsp;
+							<a th:href="@{/leilao/liberar/{id}(id=${leilao.id})}" class="btn btn-sm btn-success">Liberar</a>
+							<br/>
+							* Mandar email ao usuario explicando o motivo da Invalidacao
+						</div>
+						
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	
+	<div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-body">
+	          <img src="logo.jpg" style="width: 100%;" />
+	          <img th:src="*{'data:image/jpg;base64,'+foto}" style="width: 100%;"/>
+	        </div>
+	      </div>
+	      
+	    </div>
+  	</div>
+
+</body>
+</html>

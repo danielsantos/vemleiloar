@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Vem Leiloar - Como Funciona</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        .comoFunciona{
+            background-color: darkgrey;
+        }
+    </style>
+</head>
+<body>
+
+    <div th:replace="fragments/menu :: menu"/>
+
+    <div style="text-align: center; display: flex; height: 100%;">
+
+        <div style="width: 47%; margin-top: 7%;">
+            <h3>Vendedor</h3>
+            <br/>
+            <p>Crie o leilão e adicione as informações do seu produto.</p>
+            <p>Acompanhe os lances.</p>
+            <p>Aguarde o fechamento do leilão.</p>
+            <p>Após o termino do leilão, será liberado um chat com o usuário do lance ganhador e combine a venda.</p>
+            <p>Caso não seja concretizada a venda com o usuário do comprador, será liberado um chat com o usuário do segundo maior lance.</p>
+        </div>
+
+        <div style="width: 6%; margin-top: 7%;">
+            <hr width="5" size="300"/>
+        </div>
+
+        <div style="width: 47%; margin-top: 7%;">
+            <h3>Comprador</h3>
+            <br/>
+            <p>Procure pelo produto do seu interesse.</p>
+            <p>Dê o seu lance para o produto.</p>
+            <p>Acompanhe o leilão para saber se seu lance foi superado.</p>
+            <p>Após o termino do leilão, caso tenha ganhado, um chat com o vendedor será liberado.</p>
+            <p>Combine a compra com o vendedor.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

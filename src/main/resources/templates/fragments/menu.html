@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Vem Leiloar</title>
+
+    <!--
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" />
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"
+          rel="stylesheet" />
+
+    <link th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"
+          rel="stylesheet" />
+
+    <link th:href="@{/css/estilo.css}" rel="stylesheet" />
+    -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+    <div th:fragment="menu">
+
+        <!--
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Vem Leiloar</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/usuarios}">Usuarios</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/leilao/listar/meus}">Meus Leil&otilde;es</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/leilao/listar/quais/participo}">Leil&otilde;es que Participo</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/leilao/listar/todos}">Todos os Leil&otilde;es</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+        -->
+
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <a class="navbar-brand">Vem Leiloar</a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active listarMeus" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/leilao/listar/meus}">Meus Leil&otilde;es</a>
+                    </li>
+                    <li class="nav-item active listarQuaisParticipo" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/leilao/listar/quais/participo}">Leil&otilde;es que Participo</a>
+                    </li>
+                    <li class="nav-item active listarTodos" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/leilao/listar/todos}">Todos os Leil&otilde;es</a>
+                    </li>
+                    <li class="nav-item active comoFunciona">
+                        <a class="nav-link" th:href="@{/comoFunciona}">Como Funciona</a>
+                    </li>
+                    <li class="nav-item active" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+                    </li>
+                    <li class="nav-item active listarPendentes" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:href="@{/leilao/pendentes}">Leilões Pendentes</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item active" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/perfil}"><span class="glyphicon glyphicon-log-out"></span> Perfil</a>
+                    </li>
+                    <li class="nav-item active" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/leilao/listar/todos}"><span class="glyphicon glyphicon-log-in"></span> Entrar</a>
+                    </li>
+                    <li class="nav-item active" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+
+</body>
+</html>

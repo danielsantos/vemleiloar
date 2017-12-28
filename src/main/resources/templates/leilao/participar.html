@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Vem Leiloar - Participar de Leil&atilde;o</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+	<!--
+	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+	<script type="text/javascript">
+
+		$( document ).ready(function() {
+			
+			alert('AAAAAAA');
+
+			$("#meuLance").maskMoney({
+				prefix: "R$:",
+				decimal: ",",
+				thousands: "."
+			});
+
+		});
+
+	</script>
+	-->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+		var mask = {
+		 money: function() {
+		 	var el = this
+		 	,exec = function(v) {
+		 	v = v.replace(/\D/g,"");
+		 	v = new String(Number(v));
+		 	var len = v.length;
+		 	if (1== len)
+		 	v = v.replace(/(\d)/,"0.0$1");
+		 	else if (2 == len)
+		 	v = v.replace(/(\d)/,"0.$1");
+		 	else if (len > 2) {
+		 	v = v.replace(/(\d{2})$/,'.$1');
+		 	}
+		 	return v;
+		 	};
+		
+		 	setTimeout(function(){
+		 	el.value = exec(el.value);
+		 	},1);
+		 }
+		
+		}
+		
+		$(function(){
+			$('#meuLance').bind('keypress',mask.money)
+		});
+	</script>
+	
+	<style>
+	
+		.imagem:hover {
+			border:1px solid #0000FF;
+		}
+	 
+	</style>
+	
+
+
+</head>
+<body>
+
+<div th:replace="fragments/menu :: menu"></div>
+
+	<div class="container">
+
+		<div id="principal" style="align: center;">
+
+			<!--
+			<div class="panel-heading">
+				<strong>Participar do Leil&atilde;o</strong>
+			</div>
+			-->
+
+			<div class="row">
+
+				<div style="width: 100%; margin-left: 210px; margin-top: 40px;">
+
+					<form th:object="${leilao}" th:action="@{/leilao/participacao/save}" method="POST" >
+						<div>
+							<fieldset>
+								
+								<div id="principal" style="align: center; text-align: center; width: 67%;">
+									<div class="alert alert-danger" th:if="${msgError ne null}">
+										<span th:text="${msgError}"></span>
+									</div>
+								</div> 		
+								 					
+								<div class="form-group row">
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('nomeProduto')}? 'has-error'">
+										<label>Nome do Produto</label>
+										<input type="text" class="form-control input-sm" th:field="*{nomeProduto}" th:disabled="true" />
+									</div>
+
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('lanceInicial')}? 'has-error'">
+										<label>Lance Inicial</label>
+										<input type="text" class="form-control input-sm" th:field="*{lanceInicial}" th:disabled="true" style="width: 140px;" />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-md-6">
+										<label>Descri&ccedil;&atilde;o</label>
+										<textarea th:field="*{descricao}" class="form-control input-sm" rows="10" th:disabled="true"></textarea>
+									</div>
+
+									<div class="col-md-6" th:classappend="${#fields.hasErrors('lanceInicial')}? 'has-error'">
+										<label>&Uacute;ltimo Lance</label>
+										<input type="text" class="form-control input-sm" th:field="*{ultimoLance}" th:disabled="true" style="width: 140px;" />
+
+										<a data-toggle="modal" data-target="#myModal">
+											<div style="margin-top: 10px; width: 160px;" class="imagem">
+												<label>Imagem</label>
+												<img th:src="*{'data:image/jpg;base64,'+imagem.foto}" style="width: 100px; height: 100px;"/>
+											</div>
+										</a>
+									</div>
+								</div>
+
+								<div class="form-group row" th:if="${!leilao.meuLeilao}">
+									<div class="col-md-6">
+										<label>Meu Lance</label>
+										<input type="text" id="meuLance" class="form-control input-sm" th:field="*{lance}" autofocus="autofocus" maxlength="50" />
+									</div>
+
+									<div class="col-md-6" th:if="${!leilao.meuLeilao}">
+										<button type="submit" class="btn btn-sm btn-success" style="margin-top: 38px;">Participar!</button>
+									</div>
+								</div>
+
+								<input type="hidden" th:field="*{id}" />
+
+							</fieldset>
+						</div>
+						<div class="form-group row">
+							<a th:href="@{/leilao/listar/todos}" class="btn btn-sm btn-default">Cancelar</a>
+							<a th:href="@{/leilao/lances/{uuid}(uuid=${leilao.uuid})}" class="btn btn-sm btn-primary">Ver Lances</a>
+						</div>
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+	
+	<div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-body">
+	          <img src="logo.jpg" style="width: 100%;" />
+	          <img th:src="*{'data:image/jpg;base64,'+foto}" style="width: 100%;"/>
+	        </div>
+	      </div>
+	      
+	    </div>
+  	</div>
+
+</body>
+</html>

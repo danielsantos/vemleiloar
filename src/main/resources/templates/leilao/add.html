@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Vem Leiloar - Cadastro de Leilão</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+		var mask = {
+		 money: function() {
+		 	var el = this
+		 	,exec = function(v) {
+		 	v = v.replace(/\D/g,"");
+		 	v = new String(Number(v));
+		 	var len = v.length;
+		 	if (1== len)
+		 	v = v.replace(/(\d)/,"0.0$1");
+		 	else if (2 == len)
+		 	v = v.replace(/(\d)/,"0.$1");
+		 	else if (len > 2) {
+		 	v = v.replace(/(\d{2})$/,'.$1');
+		 	}
+		 	return v;
+		 	};
+		
+		 	setTimeout(function(){
+		 	el.value = exec(el.value);
+		 	},1);
+		 }
+		
+		}
+		
+		$(function(){
+			$('#lanceInicial').bind('keypress',mask.money)
+		});
+	</script>
+
+</head>
+<body>
+
+	<div th:replace="fragments/menu :: menu"></div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Cadastro de Leilão</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" th:object="${leilao}" enctype="multipart/form-data" th:action="@{/leilao/save}" method="POST" style="margin: 10px">
+				<div class="form-group">
+ 					<fieldset>
+						<div class="form-group row">
+							<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+								<div th:each="detailedError : ${#fields.detailedErrors()}">
+									<span th:text="${detailedError.message}"></span>
+								</div>
+							</div>
+						</div> 					
+						<div class="form-group row">
+						    <div class="col-md-1">
+						        <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
+						    </div>
+						 </div>
+						<div class="form-group row">                                                          
+							<div class="col-md-4" th:classappend="${#fields.hasErrors('nomeProduto')}? 'has-error'">
+							    <label>Nome do Produto</label>
+							    <input type="text" class="form-control input-sm" th:field="*{nomeProduto}" autofocus="autofocus" placeholder="Informe o Nome do Produto" maxlength="50" name="nomeProduto" id="nomeProduto" />
+							</div>
+
+							<div class="col-md-4" th:classappend="${#fields.hasErrors('lanceInicial')}? 'has-error'">
+								<label>Lance Inicial</label>
+								<input type="text" id="lanceInicial" class="form-control input-sm" th:field="*{lanceInicial}" autofocus="autofocus" placeholder="Informe o Lance Inicial" maxlength="50" style="width: 190px;" />
+							</div>
+						</div>
+
+						<div class="form-group row" th:classappend="${#fields.hasErrors('descricao')}? 'has-error'">
+							<div class="col-md-4">
+								<label>Descrição</label>
+								<textarea th:field="*{descricao}" class="form-control input-sm" rows="10"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group row" th:classappend="${#fields.hasErrors('categoria')}? 'has-error'">
+							<div class="col-md-4">
+								<label>Categoria</label>
+							    <select th:field="*{categoria}">
+									<option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nome}" th:selected="${categorias.contains(cat.id)}"/>
+								</select>
+							</div>
+						</div>
+
+						<div>
+							Imagem:&nbsp;<input type="file" name="file" />
+						</div>
+
+					</fieldset>
+				</div>
+				<div class="form-group row">
+					<button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+					<a th:href="@{/}" class="btn btn-sm btn-default">Cancelar</a>
+					<button type="submit" class="btn btn-sm btn-warning">Ver Lances</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Vem Leiloar - Cadastre-se</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand" href="@{/}">Vem Leiloar</a>
+</nav>
+
+<div class="container">
+
+    <div class="form-group row">
+        <div class="alert alert-success" th:if="${msgSucesso ne null}">
+            <span th:text="${msgSucesso}"></span>
+        </div>
+    </div>
+
+    <div id="principal" style="align: center;">
+
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3" style="text-align: center; margin-left:270px; margin-top: 120px;">
+                <form th:action="@{/}" method="post" th:object="${usuario}">
+                    <div class="form-group">
+                        <fieldset>
+                            <h1>Altere seus Dados</h1>
+
+                            <div th:if="${param.error}">
+                                <div class="alert alert-danger">
+                                    Usu&aacute;rio e/ou Senha inv&aacute;lidos.
+                                </div>
+                            </div>
+                            <div th:if="${param.logout}">
+                                <div class="alert alert-info">
+                                    You have been logged out.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" th:field="*{nome}" autofocus="true" placeholder="Informe o nome" maxlength="50" required="true"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" th:field="*{sobrenome}" autofocus="true" placeholder="Informe o sobrenome" maxlength="50" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" th:field="*{dataNascimento}" autofocus="true" placeholder="Informe a data de nascimento" maxlength="50" required="true"/>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Alterar"/>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
